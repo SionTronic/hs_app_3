@@ -1,0 +1,9 @@
+CREATE TABLE injury_mitigation(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    injury_id	INT,
+    severity INT,
+    mitigation_id INT,
+    mitigated_severity INT,
+	FOREIGN KEY	(injury_id) REFERENCES injury(id),
+	FOREIGN KEY (mitigation_id) REFERENCES mitigation(id)
+	); 
