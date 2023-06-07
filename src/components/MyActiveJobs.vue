@@ -1,10 +1,10 @@
 <template>
   <h1>Active Jobs</h1>
     <div v-for = "job in activeJobs" :key="job.id" class="jobs">
-      <router-link :to="{ name: 'Job'  , params: { id: job.id }}" :active-jobs="activeJobs">
+      <router-link :to="{ name: 'Job'  , params: { id: job.id}}" :active-jobs="activeJobs">
         <div class="row border p-1">
             <div class="col-md-5">
-            <p>{{ job.jobNumber }} - {{ job.clientAddress }}</p>
+            <p>{{ job.jobName }}</p>
             </div>
             <div class="col-md-5">
                 <div class="progress mt-3" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -23,7 +23,7 @@
         v-if="modalVisible"
         :myName="myName"
         :modalVisible="modalVisible"
-        @close="closeModal" 
+        @close="closeModal"
         @submit="submitNewJob">
     </newJobModal>
     <button @click="openModal" class="button2">Add</button>
@@ -33,6 +33,7 @@
 import axios from 'axios';
 import newJobModal from '@/components/newJobModal.vue';
 
+const dbUrl= 'databaseAPI.php';
 export default {
 
 props:['myName'],
@@ -77,7 +78,7 @@ methods: {
 
     openModal() {
       this.modalVisible = true
-      console.log(this.modalVisible) 
+      console.log(this.modalVisible)
     },
       
     closeModal(){
@@ -93,29 +94,23 @@ methods: {
       this.closeModal
     },
     async getTableData(table){
-      // axios.get(`http://localhost:8000/databaseAPI.php?table=${table}&name=${this.myName}`)
-      axios.get(`databaseAPI.php?table=${table}&name=${this.myName}`)
-        .then(response => {
-            const responseData = response.data;
-            this.jobs = responseData;
-            this.activeJobs = responseData.filter(job => job.jobStatus === 'Active'); 
-            console.log('Table data received successfully:', responseData);
-          })
-        .catch(error => {
+      const response = await axios.get(`${dbUrl}?table=${table}&name=${this.myName}`)
+       try{
+          this.jobs = response.data;
+          this.activeJobs = response.data.filter(job => job.jobStatus === 'Active'); 
+          console.log('Table data received successfully:', response);
+       }catch(error){
           console.log(error.message);
-          });
-      },
-    recordTableData(table,tableData){
-      // axios.post(`http://localhost:8000/databaseAPI.php?table=${table}`,tableData)
-      axios.post(`databaseAPI.php?table=${table}`,tableData)
-        .then(response => {
-            const responseData = response.data;
-            console.log('Assessment data sent successfully:', responseData);
-          })
-        .catch(error => {
-          console.log(error.message);
-          });
-      },
+      };
+    },
+    async recordTableData(table,tableData){
+      const response = await axios.post(`${dbUrl}?table=${table}`,tableData)
+      try {
+          console.log('New Job data sent successfully:', response,data);
+      }catch(error) {
+        console.log(error.message);
+      };
+    },
   }
 }
   </script> 

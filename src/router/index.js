@@ -8,7 +8,7 @@ import AllMyJobs from '../components/AllMyJobs.vue'
 import navButtons from '../components/navButtons.vue'
 import Job from '../views/Job.vue'
 import newJob from '../views/newJob.vue'
-import Jobs2 from '../views/Jobs2.vue'
+import AllJobs from '../views/AllJobs.vue'
 import ReportPage from '../views/ReportPage.vue'
 import TimeSheetPage from '../views/TimeSheetPage.vue'
 import GeneralRiskAssessment from '../views/GeneralRiskAssessment.vue'
@@ -62,13 +62,13 @@ const routes = [
     props:true
   },
   {
-    path: '/Jobs2',//ALL Jobs
-    name: 'Jobs2',
-    component: Jobs2,
+    path: '/AllJobs',//ALL Jobs
+    name: 'AllJobs',
+    component: AllJobs,
   },
 
   {
-    path: '/Job/:id',//Selected Job
+    path: '/Job/:id/',//Selected Job
     name: 'Job',
     component: Job,
     props:true

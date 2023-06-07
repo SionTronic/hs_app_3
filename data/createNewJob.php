@@ -10,13 +10,13 @@ function handleCreateNewJob($request_data, $con) {
     // $title = $request_data['title'];
     // $firstName = $request_data['firstName'];
     // $lastName = $request_data['lastName'];
-     $clientName = $request_data['clientName'];
-     $phone = $request_data['phone'];
-     $email = $request_data['email'];
+   //  $clientName = $request_data['clientName'];
+     //$phone = $request_data['phone'];
+     //$email = $request_data['email'];
     // $street = $request_data['street'];
     // $city = $request_data['city'];
     // $postcode = $request_data['postcode'];
-     $clientAddress = $request_data['clientAddress'];
+    // $clientAddress = $request_data['clientAddress'];
     // $jobName = $request_data['jobName'];
     // $contactDate = $request_data['contactDate'];
     // $appointmentDate = $request_data['appointmentDate'];
@@ -56,7 +56,7 @@ function handleCreateNewJob($request_data, $con) {
         //     }
         // }
     $jobNumber = isset($request_data['jobNumber']) ? $request_data['jobNumber'] : null;
-    $clientName = isset ($request_data['clientName']) ? $request_data['clientName'] : null;
+    $jobName = isset ($request_data['jobName']) ? $request_data['jobName'] : null;
     $clientAddress = isset ($request_data['clientAddress']) ? $request_data['clientAddress'] : null;
     $phone = isset ($request_data['phone']) ? $request_data['phone'] : null;
     $email = isset ($request_data['email']) ? $request_data['email'] : null;
@@ -67,13 +67,13 @@ function handleCreateNewJob($request_data, $con) {
     $jobStatus = "Active";
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO customerdata (jobNumber, clientName, clientAddress, phone, 
+    $sql = "INSERT INTO customerdata (jobNumber, jobName, clientAddress, phone, 
     email, description, pM, engineer, technician, jobStatus)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $newJobStmt = $con->prepare($sql);
 
     // Bind the parameters
-    $newJobStmt->bind_param('ssssssssss', $jobNumber, $clientName, $clientAddress, $phone,
+    $newJobStmt->bind_param('ssssssssss', $jobNumber, $jobName, $clientAddress, $phone,
     $email, $description, $pM, $engineer, $technician, $jobStatus);
 
     // Start a transaction
@@ -85,6 +85,7 @@ function handleCreateNewJob($request_data, $con) {
 
         // Commit the transaction
         $con->commit();
+        echo "New job recorded successfully.";
         $newJobStmt->close();
         
     } catch (Exception $e) {

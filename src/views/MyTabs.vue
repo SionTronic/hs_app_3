@@ -1,5 +1,6 @@
 <template>
 <div class="container">
+  <h3>Logged in as {{ myName }}</h3>
     
   <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">

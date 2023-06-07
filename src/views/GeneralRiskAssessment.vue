@@ -2,7 +2,7 @@
   <div class="container">
     <!-- <textarea v-model="riskAssessment"></textarea> -->
     <navButtons></navButtons>
-    <h1>{{ $route.params.jobName }} </h1>
+    <h2>{{ $route.params.jobName }} </h2>
 
     <risk-assessment-list v-if="assessmentItems"
       :items="assessmentItems"
@@ -10,11 +10,11 @@
       @editItem= "editRiskAssessmentItem">
     </risk-assessment-list>
 
-    <risk-assessment-modal 
-      v-if="modal1Visible" 
-      :modal1Visible="modal1Visible"  
-      :assessments="assessmentItems" 
-      @close="closeModal" 
+    <risk-assessment-modal
+      v-if="modal1Visible"
+      :modal1Visible="modal1Visible"
+      :assessments="assessmentItems"
+      @close="closeModal"
       @save="handleSelectedItems"
       @new="openNewAssessmentModal">
     </risk-assessment-modal>
@@ -37,8 +37,8 @@
 
     
 
-    <button @click="openModal" class="button2">Add</button>
-    <button @click="printAssessment" class="button2">Print</button>
+    <button @click="openModal" class="button2 print-hide">Add</button>
+    <button @click="printAssessment" class="button2 print-hide">Print</button>
   </div>
 </template>
 
@@ -50,7 +50,7 @@ import RiskAssessmentList from '@/components/RiskAssessmentList.vue'
 import navButtons from '@/components/navButtons.vue';
 import axios from 'axios'
 
-
+const dbUrl= 'databaseAPI.php';
 export default {
 
 props:['id'],
@@ -74,177 +74,171 @@ components: {
       assessmentItem:[],
       assessmentItems: [],
       assessmentIDs:[],
+     
     }
   },
   mounted() {
       this.getJobRiskAssessments();
-      this.getData();
+      this.getAssessmentData();
       this.jobNumber = this.$route.params.jobNumber;
       
 
   },
   methods: {
-    props() {
-      return {
-        id: this.$route.params.id,
-        jobName: this.$route.params.jobName
-      };
-    },
-      async getJobRiskAssessments(){
-        // const url = 'http://localhost:8000/databaseAPI.php';
-        const url = 'http://cadarn.wales/data/databaseAPI.php';
-        const params = new URLSearchParams({
-            table: 'assessments_customerdata',
-            customer_id: this.id,
-          });
-            try {
-            const response = await fetch(`${url}?${params}`);
-            const data = await response.json();
-            this.assessmentIDs = data.map(item => item.assessment_id);
-          } catch (error) {
-            console.log(error.message);
-          }
-      },
+    // props() {
+    //   return {
+    //     id: this.$route.params.id,
+    //     jobName: this.$route.params.jobName
+    //   };
+    // },
 
-      async getData() {
-        // const url = 'http://localhost:8000/databaseAPI.php';
-        const url = 'http://cadarn.wales/data/databaseAPI.php';
-        const params = new URLSearchParams({
-            table: 'assessments'
-          });
+    //----------------------------------------API METHODS---------------------------------------------------
+    async getJobRiskAssessments(){
+      const params = new URLSearchParams({table: 'assessments_customerdata', customer_id: this.id});
           try {
-            const response = await fetch(`${url}?${params}`);
-            const data = await response.json();
-            
-            const filteredItems = data.filter(assessment => this.assessmentIDs.includes(assessment.id));
-            this.assessmentItems = filteredItems;
-            
-            console.log('assessmentItems', this.assessmentItems);
-          } catch (error) {
-            console.log(error.message);
-          }
-      },  
- 
-      recordAssessment(data){
-        const assessmentData = {
-            jobID:this.id,
-            hazard: data.selectedHazard, 
-            consequence: data.selectedInjury, 
-            severity:data.severity, 
-            probability: data.probability, 
-            risk: data.risk, 
-            peopleEffected: data.selectedPeopleEffected, 
-            mitigation:data.selectedMitigation, 
-            mitigatedSeverity:data.mitigatedSeverity, 
-            residualRisk: data.residualRisk, 
-            effectiveness: data.effectiveness
-          };
-          console.log("assessmentData",assessmentData)
-          this.recordTableData('recordAssessment',assessmentData)
-          this.assessmentItems.push(assessmentData);
-             this.closeModal();
-             this.closeModal2();
-             this.closeModal3();
-          },
-      deleteRiskAssessmentItem(id) {
-      // Find the index of the item with the given ID in the items array
-          const index = this.assessmentItems.findIndex(item => item.id === id);
-          if (index !== -1) {
-            // Remove the item at the found index
-            this.assessmentItems.splice(index, 1);
-            //Find the ID of the assessment
-             console.log(id);
-             const tabelData = {
-              jobID: this.id,
-              assessmentID: id
-             }
-             this.recordTableData('delete',tabelData)
+          const response = await axios.get(`${dbUrl}?${params}`);
+          const data = await response.data;
+          this.assessmentIDs = data.map(item => item.assessment_id);
+        } catch (error) {
+          console.log(error.message);
         }
     },
 
-        openModal() {
-          this.modal1Visible = true
-          console.log(this.modal1Visible)
-      },
-      
-        closeModal(){
-          console.log("close modal")
-          this.modal1Visible=false
-      },
-        closeModal2(){
-          console.log("close modal 2")
-          this.modal2Visible = false
-      },
-      closeModal3(){
-          console.log("close modal 3")
-          this.modal3Visible = false
-      },
-        saveRiskAssessment() {
-        // this.riskAssessments.push(data)
-         console.log("save risk assessment")
+    async getAssessmentData() {
+      const params = new URLSearchParams({table: 'assessments'});
+      try {
+        const response = await axios.get(`${dbUrl}?${params}`);
+        const data = await response.data;
+        const filteredItems = data.filter(assessment => this.assessmentIDs.includes(assessment.id));
+        this.assessmentItems = filteredItems;
         
-      },
-        handleSelectedItems(selectedItems) {
-          this.assessmentItems.push(...selectedItems);
-          selectedItems.forEach((item) => {
-          const tableData = { ...item, jobID:this.id };
-          this.recordTableData('recordAssessment', tableData);
-          });
-          //console.log('Selected items:', tableData);
-      },
+        console.log('assessmentItems', this.assessmentItems);
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    async recordTableData(table,tableData){
+      const response = await axios.post(`${dbUrl}?table=${table}`,tableData)
+      try{
+        const response = await response.data;
+        console.log('Assessment data sent successfully:', response);
+      } catch(error){
+        console.log(error.message);
+      };
+    },
+  //----------------------------------------^API METHODS^---------------------------------------------------
 
-      editRiskAssessmentItem(assessmentID) {
-        console.log('assessmentID', assessmentID)
+    recordAssessment(data){
+      const assessmentData = {
+        jobID:this.id,
+        hazard: data.selectedHazard,
+        consequence: data.selectedInjury,
+        severity:data.severity,
+        probability: data.probability,
+        risk: data.risk,
+        peopleEffected: data.selectedPeopleEffected,
+        mitigation:data.selectedMitigation,
+        mitigatedSeverity:data.mitigatedSeverity,
+        residualRisk: data.residualRisk,
+        effectiveness: data.effectiveness
+      };
+      console.log("assessmentData",assessmentData)
+      this.recordTableData('recordAssessment',assessmentData)
+      this.assessmentItems.push(assessmentData);
+      this.closeModal();
+      this.closeModal2();
+      this.closeModal3();
+    },
+    deleteRiskAssessmentItem(id) {
+    // Find the index of the item with the given ID in the items array
+      const index = this.assessmentItems.findIndex(item => item.id === id);
+      if (index !== -1) {
+        // Remove the item at the found index
+        this.assessmentItems.splice(index, 1);
+        //Find the ID of the assessment
+        console.log(id);
+        const tableData = {
+          jobID: this.id,
+          assessmentID: id
+        }
+        this.recordTableData('delete',tableData)
+      }
+    },
+
+    openModal() {
+      this.modal1Visible = true
+      console.log(this.modal1Visible)
+    },
+      
+    closeModal(){
+      console.log("close modal")
+      this.modal1Visible=false
+    },
+    closeModal2(){
+      console.log("close modal 2")
+      this.modal2Visible = false
+    },
+    closeModal3(){
+      console.log("close modal 3")
+      this.modal3Visible = false
+    },
+    saveRiskAssessment() {
+    // this.riskAssessments.push(data)
+      console.log("save risk assessment")
+        
+    },
+    handleSelectedItems(selectedItems) {
+      this.assessmentItems.push(...selectedItems);
+      selectedItems.forEach((item) => {
+        const tableData = { ...item, jobID:this.id };
+        this.recordTableData('recordAssessment', tableData);
+      });
+        //console.log('Selected items:', tableData);
+    },
+
+    editRiskAssessmentItem(assessmentID) {
+      console.log('assessmentID', assessmentID)
       // Call a method on the parent component to edit the record with the given ID
       this.assessmentItem = this.assessmentItems.find((item)=>item.id===assessmentID);
       console.log('assessmentItem', this.assessmentItem)
       this.modal3Visible=true
-      },
+    },
 
-      
-      
-      openNewAssessmentModal(){
-        this.modal2Visible = true
-        console.log('modal2Visible', this.modal2Visible)
-      },
+    openNewAssessmentModal(){
+      this.modal2Visible = true
+      console.log('modal2Visible', this.modal2Visible)
+    },
 
-    
-      recordTableData(table,tableData){
-        // axios.post(`http://localhost:8000/databaseAPI.php?table=${table}`,tableData)
-        axios.post(`http://cadarn.wales/data/databaseAPI.php?table=${table}`,tableData)
-            .then(response => {
-                const responseData = response.data;
-                console.log('Assessment data sent successfully:', responseData);
-              })
-            .catch(error => {
-              console.log(error.message);
-              });
-          },
-          printAssessment(){
-           window.print()
-          }
+    printAssessment(){
+      window.print()
+    }
   }
 
 }
-  </script>
-  <style>
+</script>
+
+<style>
 
 .button2{
-    text-decoration: none;
-    background:#fff;
-    text-align:center;  
-    padding:5px;
-    border-radius: 4px;
-    border: 1px solid rgb(0,68,141); 
-    margin: 10px 10px 10px 10px;
-    max-width: 600px;
-    cursor: pointer;
-    color:#444;
+  text-decoration: none;
+  background:#fff;
+  text-align:center;
+  padding:5px;
+  border-radius: 4px;
+  border: 1px solid rgb(0,68,141);
+  margin: 10px 10px 10px 10px;
+  max-width: 600px;
+  cursor: pointer;
+  color:#444;
 }
 
 .button2:hover{
-    background:rgba(0,68,141,0.5); 
-    color:white;
+  background:rgba(0,68,141,0.5);
+  color:white;
 }
-
+@media print {
+  .print-hide {
+    display: none;
+  }
+}
 </style>

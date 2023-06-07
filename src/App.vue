@@ -6,7 +6,7 @@
           <img src="/CadarnLogo.svg" alt="Cadarn Logo" width="200" >
         </a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon navbar-dark"></span>
+          <span class="navbar-toggler-icon navbar-dark print-hide"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="color:white;">

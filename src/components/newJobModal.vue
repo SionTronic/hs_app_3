@@ -9,11 +9,11 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1">Job Number</span>
-                                    <input type="text" class="form-control" v-model="jobNumber" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input ref="jobNumberInput" type="text" class="form-control" v-model="jobNumber" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon2">Client Name</span>
-                                    <input type="text" class="form-control" v-model = "clientName" aria-label="Username" aria-describedby="basic-addon1">
+                                    <span class="input-group-text" id="basic-addon2">Job Name</span>
+                                    <input type="text" class="form-control" v-model = "jobName" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text align-items-start" id="basic-addon2">Client Address</span>
@@ -33,73 +33,88 @@
                                     <span class="input-group-text align-items-start" id="basic-addon2">Job Description</span>
                                     <textarea class="form-control" rows="5" v-model="description" aria-label="Username" aria-describedby="basic-addon1"></textarea>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon2">Project Manager</span>
-                                    <input type="text" class="form-control" v-model = "pM" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon2">Engineer</span>
-                                    <input type="text" class="form-control" v-model = "engineer" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon2">Technician</span>
-                                    <input type="text" class="form-control" v-model = "technician" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
+                                <!-- Project Manager -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2">Project Manager</span>
+                                <select class="form-select" v-model="pM">
+                                    <option value="">Select Project Manager</option>
+                                    <option v-for="manager in projectManagers" :value="manager">{{ manager }}</option>
+                                </select>
+                            </div>
+                            <!-- Engineer -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2">Engineer</span>
+                                <select class="form-select" v-model="engineer">
+                                    <option value="">Select Engineer</option>
+                                    <option v-for="engineer in engineers" :value="engineer">{{ engineer }}</option>
+                                </select>
+                            </div>
+                            <!-- Technician -->
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon2">Technician</span>
+                                <select class="form-select" v-model="technician">
+                                    <option value="">Select Technician</option>
+                                    <option v-for="technician in technicians" :value="technician">{{ technician }}</option>
+                                </select>
+                            </div>
                                 <button type="submit" class="btn btn-primary mb-3 me-3 ">Notes</button>
                                 <button type="submit" class="btn btn-primary mb-3">Job Folder</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                   
             </div>
             <div class="button-container">
-                <button type="button" @click="$emit('submit',
-                {jobNumber,
-                    clientName,
+                <button type="button" @click="$emit('submit',{
+                    jobNumber,
+                    jobName: jobNumber + ' - ' + jobName,
                     clientAddress,
                     phone,
                     email,
                     description,
                     pM,
                     engineer,
-                    technician})" class="button2">Submit</button>
+                    technician
+                    })" class="button2">Submit</button>
                 <button type="button" @click="$emit('close')" class="button2">Cancel</button>
             </div>
         </div>
     </div>
 </template>
-     
-      
-       
-    <script>
-    import navButtons from '@/components/navButtons.vue';
+
+<script>
+import navButtons from '@/components/navButtons.vue';
     
     export default {
-      components: {
-        navButtons,
-      },
-      props: ['id', 'myName'],
-      data() {
+    components: {
+    navButtons,
+    },
+
+    props: ['id', 'myName'],
+
+    data() {
         return {
             jobNumber:'Enter Job Number',
-            clientName:'',
+            jobName:'',
             clientAddress:'',
             phone:'',
             email:'',
             description:'',
             pM:'',
-            engineer:this.myName,
-            technician:''
-            }
-      },
-      mounted() {
-        console.log(this.$route.query.name)
+            engineer:'',
+            technician:'',
+            projectManagers: ['Ifan', 'Ian', 'Dyfed', 'Bryn', 'Bryan', 'Aled'],
+            engineers: ['Martin', 'Sion', 'Jared', 'Byron', 'Arwel', 'Camilla', 'Dylan'],
+            technicians: ['Erin', 'Tom', 'Mitch']
+        }
+    },
 
-      },
-      methods: {
-       
-      },
+    mounted() {
+    console.log(this.$route.query.name)
+    this.$refs.jobNumberInput.focus();
+    this.$refs.jobNumberInput.select();
+    },
+
     }
     </script>
     

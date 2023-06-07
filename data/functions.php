@@ -14,6 +14,10 @@ function getSortColumn($table)
             return 'mitigation';
         case 'customerdata':
             return 'jobNumber';
+        case 'assessments':
+            return 'id';
+        case 'assessments_customerdata':
+            return 'id';
         default:
             // Handle the default case or throw an exception if needed
             return null;

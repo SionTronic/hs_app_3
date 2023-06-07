@@ -6,17 +6,17 @@
 </router-link> 
 </div>
 <div class="button">
-  <router-link to = "/Jobs2">
+  <router-link to = "/AllJobs">
  Login as Caryl
 </router-link> 
 </div>
 <div class="button">
-  <router-link to = "/Jobs2">
+  <router-link to = "/AllJobs">
  Login as Mathew
 </router-link> 
 </div>
 <div class="button">
-  <router-link to = "/Jobs2">
+  <router-link to = "/AllJobs">
  Login as Catrin
 </router-link> 
 </div>

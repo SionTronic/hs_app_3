@@ -13,8 +13,8 @@
           <th>Risk Mitigation</th>
           <th>Mitigated Probability</th>
           <th>Residual Risk Value</th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th class="print-hide">Edit</th>
+          <th class="print-hide">Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -28,9 +28,9 @@
           <td>{{ item.mitigation }}</td>
           <td>{{ item.mitigatedSeverity }}</td>
           <td :style="{ backgroundColor: colorForValue(item.residualRisk) }">{{ item.residualRisk }}</td>
-          <td><button class="button2" @click="$emit('editItem',(item.id))">Edit</button></td>
+          <td><button class="button2 print-hide" @click="$emit('editItem',(item.id))">Edit</button></td>
           <!-- <td><button class="button2" @click="deleteRiskAssessment(item.hazard)">Delete</button></td> -->
-          <td><button class="button2" @click="$emit('deleteItem',(item.id))">Delete</button></td>
+          <td><button class="button2 print-hide" @click="$emit('deleteItem',(item.id))">Delete</button></td>
         </tr>
       </tbody>
     </table>

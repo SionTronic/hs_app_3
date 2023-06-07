@@ -280,27 +280,7 @@ export default {
       }
       this.showModal = null; // Close the modal after selecting an option
     },
-  //  async  getOptionsFromTable(table) {
-  //      return axios
-  //       // .get(`http://localhost:8000/databaseAPI.php?table=${table}`)
-  //       .get(`databaseAPI.php?table=${table}`)
-  //       .then((response) => response.data)
-  //       .catch((error) => {
-  //         console.log(error);
-  //         return []; // Return an empty array in case of error
-  //       });
-  //   },
-    // async getOptionsFromTable(table) {
-    //   const url = 'databaseAPI.php';
-    //   const params = new URLSearchParams({table});
-    //   try{
-    //     const response = await axios.get(`${url}?${params}`);
-    //     return response.data
-    //   } catch (error) {
-    //   console.error(error);
-    //     return []; // Return an empty array in case of an error
-    //   }
-    // },   
+  
     async getOptionsFromTable(table) {
       const url = 'databaseAPI.php';
       const params = new URLSearchParams({
@@ -315,7 +295,6 @@ export default {
     handleChange(){
       this.calculateRisk();
       this.calculateResidualRisk();
-      // this.calculateMitigatedSeverity();
       this.calculateEffectiveness();
     },
     calculateRisk(){
@@ -356,26 +335,7 @@ export default {
     }catch(error){
       console.log(error)
     }
-    // Fetch options data from tables
-    //   this.hazardOptions = this.getOptionsFromTable('hazards');
-    //   });
-    // this.getOptionsFromTable('injury')
-    //   .then((data) => {
-    //     this.injuryOptions = data;
-    //   });
-    // this.getOptionsFromTable('equipment')
-    //   .then((data) => {
-    //     this.equipmentOptions = data;
-    //   });
-    //   this.getOptionsFromTable('people_effected')
-    //   .then((data) => {
-    //     this.peopleEffectedOptions = data;
-    //   });  
-    //   this.getOptionsFromTable('mitigation')
-    //   .then((data) => {
-    //     this.mitigationOptions = data;
-    //   });
-    // Add more calls for other options arrays as needed
+   
   },
 }
 </script>

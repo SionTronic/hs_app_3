@@ -54,7 +54,7 @@ switch ($method) {
     //         break;
     //         default;
     //     }
-    //    // $sortColumn = getSortColumn($table); // Initialize the sort column variable
+       $sortColumn = getSortColumn($table); // Initialize the sort column variable
 
         // Construct the SQL query
         $sql = "SELECT * FROM $table";
@@ -72,6 +72,11 @@ switch ($method) {
          if($name){
             $whereClause = " WHERE pM = '$name' OR engineer = '$name' OR technician = '$name'";
         }
+        if($table !== "assessments_customerdata" || $table !== "assessments"){
+             $whereClause .=  " ORDER BY $sortColumn ASC";
+        }
+       
+
          $sql .=$whereClause;
 
       

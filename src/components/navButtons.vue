@@ -1,7 +1,7 @@
 <template>
    <div class="nav2">
-    <button  class="button2 " @click="back">❮ Back</button>
-    <button  class="button2 " @click="forward">Next ❯</button>
+    <button  class="button2 print-hide" @click="back">❮ Back</button>
+    <button  class="button2 print-hide" @click="forward">Next ❯</button>
   </div>
 </template>
 

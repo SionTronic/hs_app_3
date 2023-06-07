@@ -1,6 +1,6 @@
 <template>
 <div class="container" v-if="job">
-    <navButtons/>
+    <navButtons />
     <h1>Job Details</h1>
       <form>
         <div class="row">
@@ -10,8 +10,8 @@
                 <input type="text" class="form-control" v-model="job.jobNumber" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon2">Client Name</span>
-                <input type="text" class="form-control" v-model = job.clientName aria-label="Username" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon2">job Name</span>
+                <input type="text" class="form-control" v-model = job.jobName aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text align-items-start" id="basic-addon2">Client Address/Job Name</span>
@@ -53,7 +53,7 @@
         </div><br>
         <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
       </form>
-      <div class="nav2" v-if=job.id>
+      <div class="nav2" v-if=job.jobName>
         <router-link class ="button2" to="/report">Report</router-link>
         <router-link class ="button2" to="/timesheet">Timesheet</router-link>
         <!-- <router-link class="button2" :to="{ name: 'General Risk Assessment', jobName:jobName, params: { id: job.id  } }">Risk Assessment</router-link> -->
@@ -69,12 +69,12 @@
 
 
 </template>
- 
-  
-   
+
 <script>
 import navButtons from '@/components/navButtons.vue';
+import axios from 'axios'
 
+const dbUrl= 'databaseAPI.php';
 export default {
   components: {
     navButtons,
@@ -86,29 +86,25 @@ export default {
       job: {},
     }
   },
+
   mounted() {
-   this.getOptionsFromTable();
+    this.getOptionsFromTable();
   //  this.job = this.activeJobs.find(job => job.id === this.id);
   //  console.log(this.job)
   },
+
   methods: {
     async getOptionsFromTable() {
-  // const url = 'http://localhost:8000/databaseAPI.php';
-  const url = 'https://cadarn.wales/data/databaseAPI.php';
-  const params = new URLSearchParams({
-    table: 'customerdata',
-    id: this.id,
-  });
+      const params = new URLSearchParams({table: 'customerdata', id: this.id,});
+      try {
+        const response = await axios.get(`${dbUrl}?${params}`);
+        this.job  = response.data[0]
+        this.logJobs();
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
 
-  try {
-    const response = await fetch(`${url}?${params}`);
-    const data = await response.json();
-    this.job = data[0];
-    this.logJobs();
-  } catch (error) {
-    console.log(error.message);
-  }
-},
     openJobFolder(){
         alert("openJobFolder")
         this.openFolderBrowser()
