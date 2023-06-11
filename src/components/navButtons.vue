@@ -7,12 +7,24 @@
 
 <script>
 export default {
+
+  props:{
+    isEdited:Boolean
+  },
     methods: {
     redirect(){
       this.$router.push({name:'Home'})
     },
     back(){
-      this.$router.go(-1)
+      if (this.isEdited) {
+        const confirmMessage = 'The form has unsaved changes. Are you sure you want to go back?';
+        const shouldGoBack = window.confirm(confirmMessage);
+        if (shouldGoBack) {
+          this.$router.go(-1);
+        }
+      } else {
+        this.$router.go(-1);
+      }
     },
     forward(){
       this.$router.go(1)

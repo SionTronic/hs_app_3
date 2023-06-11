@@ -6,30 +6,30 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // Enable mysqli erro
 
 
 function handleCreateNewJob($request_data, $con) {
-     //$jobNumber = $request_data['jobNumber'];
-    // $title = $request_data['title'];
-    // $firstName = $request_data['firstName'];
-    // $lastName = $request_data['lastName'];
-   //  $clientName = $request_data['clientName'];
-     //$phone = $request_data['phone'];
-     //$email = $request_data['email'];
-    // $street = $request_data['street'];
-    // $city = $request_data['city'];
-    // $postcode = $request_data['postcode'];
-    // $clientAddress = $request_data['clientAddress'];
-    // $jobName = $request_data['jobName'];
-    // $contactDate = $request_data['contactDate'];
-    // $appointmentDate = $request_data['appointmentDate'];
-    // $startDate = $request_data['startDate'];
-    // $contractedEndDate = $request_data['contractedEndDate'];
-    // $estimatedEndDate = $request_data['estimatedEndDate'];
-    // $acctualEndDate = $request_data['acctualEndDate'];
-    // $Status = $request_data['Status'];
-    // $gridReference = $request_data['gridReference'];
-    // $description = $request_data['description'];
-    // $pM = $request_data['pM'];
-    // $engineer = $request_data['engineer'];
-    // $technician = $request_data['technician'];
+     $jobNumber = $request_data['jobNumber'];
+    $title = $request_data['title'];
+    $firstName = $request_data['firstName'];
+    $lastName = $request_data['lastName'];
+    $clientName = $request_data['clientName'];
+     $phone = $request_data['phone'];
+     $email = $request_data['email'];
+    $street = $request_data['street'];
+    $city = $request_data['city'];
+    $postcode = $request_data['postcode'];
+    $clientAddress = $request_data['clientAddress'];
+    $jobName = $request_data['jobName'];
+    $contactDate = $request_data['contactDate'];
+    $appointmentDate = $request_data['appointmentDate'];
+    $startDate = $request_data['startDate'];
+    $contractedEndDate = $request_data['contractedEndDate'];
+    $estimatedEndDate = $request_data['estimatedEndDate'];
+    $acctualEndDate = $request_data['acctualEndDate'];
+    $Status = $request_data['Status'];
+    $gridReference = $request_data['gridReference'];
+    $description = $request_data['description'];
+    $pM = $request_data['pM'];
+    $engineer = $request_data['engineer'];
+    $technician = $request_data['technician'];
 
     // Start a transaction
    

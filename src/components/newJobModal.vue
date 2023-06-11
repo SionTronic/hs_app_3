@@ -28,8 +28,8 @@
                                     <input type="text" class="form-control" v-model = "job.email" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon2">Date</span>
-                                    <input type="text" class="form-control datepicker" v-model="job.contactedDate" aria-label="Username" aria-describedby="basic-addon1">
+                                    <span class="input-group-text" id="basic-addon2">Contact Date</span>
+                                    <input type="text" class="form-control datepicker" v-model="job.contactDate" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -41,14 +41,14 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon2">Status</span>
                                     <select class="form-select" v-model="job.jobStatus">
-                                    <option value="Active">{{status}}</option>
+                                    <option value="Active">Active</option>
                                     <option v-for="js in jobStatus" :value="js">{{ js }}</option>
                                 </select>
                                 </div>
                                 <!-- Project Manager -->
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon2">Project Manager</span>
-                                <select class="form-select" v-model="pM">
+                                <select class="form-select" v-model="job.pM">
                                     <option value="">Select Project Manager</option>
                                     <option v-for="manager in projectManagers" :value="manager">{{ manager }}</option>
                                 </select>
@@ -56,7 +56,7 @@
                             <!-- Engineer -->
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon2">Engineer</span>
-                                <select class="form-select" v-model="engineer">
+                                <select class="form-select" v-model="job.engineer">
                                     <option value="">Select Engineer</option>
                                     <option v-for="engineer in engineers" :value="engineer">{{ engineer }}</option>
                                 </select>
@@ -64,7 +64,7 @@
                             <!-- Technician -->
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon2">Technician</span>
-                                <select class="form-select" v-model="technician">
+                                <select class="form-select" v-model="job.technician">
                                     <option value="">Select Technician</option>
                                     <option v-for="technician in technicians" :value="technician">{{ technician }}</option>
                                 </select>
@@ -77,19 +77,7 @@
                 </div>
             </div>
             <div class="button-container">
-                <button type="button" @click="$emit('submit',{
-                    jobNumber,
-                    jobName: jobNumber + ' - ' + jobName,
-                    clientAddress,
-                    phone,
-                    email,
-                    description,
-                    contactedDate,
-                    status,
-                    pM,
-                    engineer,
-                    technician
-                    })" class="button2">Submit</button>
+                <button type="button" @click="$emit('submit',job)" class="button2">Submit</button>
                 <button type="button" @click="$emit('close')" class="button2">Cancel</button>
             </div>
         </div>
@@ -115,7 +103,7 @@ import navButtons from '@/components/navButtons.vue';
                 clientAddress:'',
                 phone:'',
                 email:'',
-                contactedDate:new Date().toLocaleDateString('en-GB'),
+                contactDate:new Date().toLocaleDateString('en-GB'),
                 jobStatus:'Active',
                 description:'',
                 pM:'',
@@ -125,23 +113,25 @@ import navButtons from '@/components/navButtons.vue';
             jobStatus:['Completed','Enquiry','Quoted', 'Accepted','Tendered','Suspended'],
             projectManagers: ['Ifan', 'Ian', 'Dyfed', 'Bryn', 'Bryan', 'Aled'],
             engineers: ['Martin', 'Sion', 'Jared', 'Byron', 'Arwel', 'Camilla', 'Dylan'],
-            technicians: ['Erin', 'Tom', 'Mitch']
+            technicians: ['Erin', 'Tom', 'Mitch'],
+            isEdited:false
         }
     },
 
     mounted() {
-        console.log(this.$route.query.name)
-        //this.$refs.jobNumberInput.focus();
-        
         flatpickr('.datepicker', {
             dateFormat: 'd/m/Y',  // Specify the desired date format
             defaultDate: 'today', // Set the default date to today
             onClose: (selectedDates, dateStr, instance) => {
-            this.contactedDate = dateStr;  // Update the v-model value
+                this.contactDate = dateStr;  // Update the v-model value
             }
         });
     },
-   }
+
+    
+}
+
+
 </script>
 
 <style scoped>
@@ -153,10 +143,10 @@ import navButtons from '@/components/navButtons.vue';
     .button2{
         text-decoration: none;
         background:#fff;
-        text-align:left;  
+        text-align:left;
         padding:5px;
         border-radius: 4px;
-        border: 1px solid rgb(0,68,141); 
+        border: 1px solid rgb(0,68,141);
         margin: 10px 10px 10px 10px;
         max-width: 600px;
         cursor: pointer;
@@ -164,7 +154,7 @@ import navButtons from '@/components/navButtons.vue';
     }
     
     .button2:hover{
-        background:rgba(0,68,141,0.5); 
+        background:rgba(0,68,141,0.5);
         color:white;
     }
     .myModal-content {
@@ -177,7 +167,7 @@ import navButtons from '@/components/navButtons.vue';
     background: white;
     opacity:1 !important;
     border-radius: 10px;
-    border:1px solid rgb(0,68,141); 
+    border:1px solid rgb(0,68,141);
     overflow:auto;
 }
     .myBackdrop{

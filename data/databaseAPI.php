@@ -8,6 +8,7 @@ require_once 'recordAssessment.php';
 require_once 'deleteAssessment.php';
 require_once 'createNewJob.php';
 require_once 'allocatedJobs.php';
+require_once 'updateCustomerData.php';
 
 
 header('Content-Type: application/json');
@@ -70,11 +71,15 @@ switch ($method) {
             $whereClause .=  " WHERE hazard_id=$hazard_id";
          }
          if($name){
-            $whereClause = " WHERE pM = '$name' OR engineer = '$name' OR technician = '$name'";
+            $whereClause .= " WHERE pM = '$name' OR engineer = '$name' OR technician = '$name'";
         }
-        if($table !== "assessments_customerdata" || $table !== "assessments"){
+        if($table === "customerdata"){
+            $whereClause .=  " ORDER BY $sortColumn DESC";
+        }
+        if($table !== "assessments_customerdata" && $table !== "assessments" && $table !== "customerdata"){
              $whereClause .=  " ORDER BY $sortColumn ASC";
         }
+       
        
 
          $sql .=$whereClause;
@@ -84,7 +89,7 @@ switch ($method) {
          
          
         //  . ($id ? " WHERE customer_id=$id" : '');// . " ORDER BY $sortColumn ASC";
-         //echo $sql;
+        // echo $sql;
         $result = mysqli_query($con, $sql);
         
         if (!$result) {
@@ -140,6 +145,9 @@ case 'POST':
         break;
         case'createNewJob':
             handleCreateNewJob($request_data,$con);
+        break;
+        case'update_customerdata':
+            handleUpdateCustomerData($request_data,$con);
         break;
         // case 'injury_mitigation':
         //      handleInjuryMitigation($request_data, $con);

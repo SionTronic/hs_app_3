@@ -17,5 +17,6 @@ $allowedTables = array(
     'recordAssessment',
     'delete',
     'createNewJob',
-    'allocatedJobs');
+    'allocatedJobs',
+    'update_customerdata');
 ?>

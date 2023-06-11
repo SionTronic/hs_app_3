@@ -72,8 +72,8 @@ export default {
         if (job.jobName == null) {
           job.jobName = 'Unassigned';
         }
-        const lowerCaseJobName = job.jobName.toLowerCase();
-        const lowerCaseJobStatus = job.jobStatus.toLowerCase();
+        const lowerCaseJobName = job.jobName ? job.jobName.toLowerCase(): 'No Job Name'
+        const lowerCaseJobStatus = job.jobStatus ? job.jobStatus.toLowerCase() : 'No Status Assinged';
         const lowerCaseTextSearch = textSearch.value.toLowerCase();
         // Check if the job matches the status filter
         const statusMatch = !statusFilter.value || lowerCaseJobStatus.includes(statusFilter.value.toLowerCase());

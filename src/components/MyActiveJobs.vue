@@ -74,7 +74,9 @@ methods: {
       await this.getTableData('customerdata', this.myName)
       this.closeModal()
     },
+
     async getTableData(table , name){
+      console.log('table', table)
       const response = await axios.get(`${dbUrl}?table=${table}&name=${name}`)
        try{
           this.jobs = response.data;
