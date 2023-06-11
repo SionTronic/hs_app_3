@@ -304,7 +304,7 @@ export default {
     },
    async  getOptionsFromTable(table) {
        return axios
-        .get(`http://localhost:8000/databaseAPI.php?table=${table}`)
+        .get(`http://cadarn.wales/data/databaseAPI.php?table=${table}`)
         .then((response) => response.data)
         .catch((error) => {
           console.log(error);

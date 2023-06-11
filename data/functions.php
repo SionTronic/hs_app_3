@@ -13,7 +13,7 @@ function getSortColumn($table)
         case 'mitigation':
             return 'mitigation';
         case 'customerdata':
-            return 'jobNumber';
+            return 'STR_TO_DATE(contactDate, \'%d/%m/%Y\')';
         case 'assessments':
             return 'id';
         case 'assessments_customerdata':

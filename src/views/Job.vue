@@ -43,9 +43,10 @@
                 <span class="input-group-text" id="basic-addon2">Technician</span>
                 <input type="text" class="form-control" v-model = job.technician aria-label="Username" aria-describedby="basic-addon1">
             </div>
+            
             <button type="submit" class="btn btn-primary mb-3 me-3 ">Notes</button>
             <button type="submit" class="btn btn-primary mb-3 me-3">Finance</button>
-            <button type="submit" class="btn btn-primary mb-3" @click="openJobFolder">Job Folder</button>
+            <button  class="btn btn-primary mb-3" @click="openJobFolder">Job Folder</button>
           </div>
         </div>
         <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
@@ -72,18 +73,23 @@
 
 <script>
 import navButtons from '@/components/navButtons.vue';
+import navigator from '@/components/navButtons.vue';
 import axios from 'axios'
 
-const dbUrl= 'databaseAPI.php';
+ const dbUrl= 'databaseAPI.php';
+// const openExplorer = require('open-file-explorer');
+
 export default {
   components: {
     navButtons,
+    navigator
   },
   props: ['id'],
 
   data() {
     return {
       job: {},
+      jobfolderPath:"C:\Users\Sion\Documents\AGS Engineering Solution Ltd\Cadarn"
     }
   },
 
@@ -106,26 +112,46 @@ export default {
     },
 
     openJobFolder(){
-        alert("openJobFolder")
+      event.preventDefault();
         this.openFolderBrowser()
+        //var fs = require('fs')
+        
+// openExplorer(path, err => {
+//     if(err) {
+//         console.log(err);
+//     }
+//     else {
+//         //Do Something
+//     }
+// });
+
+
+       // spawn('explorer.exe', [`/select,"${this.folderPath}"`], {shell: true})
+      // const expl = exec('explorer.exe', [`/select,"${this.folderPath}"`]);
     },
     openFolderBrowser() {
+      window.open(this.jobfolderPath);
       // Create an input element dynamically
-      const input = document.createElement('input');
+      // const input = document.createElement('input');
       
-      // Set input attributes
-      input.type = 'file';
-      input.webkitdirectory = true;
+      // // Set input attributes
+      // input.type = 'file';
+      // input.webkitdirectory = true;
+      // input.directory = true;
 
-      // Add an event listener to handle the selected folder
-      input.addEventListener('change', (event) => {
-        const folderPath = event.target.files[0].path;
-        // Do something with the selected folder path
-        console.log('Selected folder:', folderPath);
-      });
+      // // Set the default directory to navigate to
+      // const defaultDirectory = this.jobfolderPath;
+      // input.setAttribute('defaultvalue', defaultDirectory);
 
-      // Trigger the click event on the input element
-      input.click();
+      // // Add an event listener to handle the selected folder
+      // input.addEventListener('change', (event) => {
+      //   const folderPath = event.target.files[0].path;
+      //   // Do something with the selected folder path
+      //   console.log('Selected folder:', folderPath);
+      // });
+
+      // // Trigger the click event on the input element
+      // input.click();
     },
     
     logJobs() {

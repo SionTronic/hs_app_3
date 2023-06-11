@@ -60,21 +60,22 @@ function handleCreateNewJob($request_data, $con) {
     $clientAddress = isset ($request_data['clientAddress']) ? $request_data['clientAddress'] : null;
     $phone = isset ($request_data['phone']) ? $request_data['phone'] : null;
     $email = isset ($request_data['email']) ? $request_data['email'] : null;
+    $contactedDate  = isset ($request_data['contactedDate']) ? $request_data['contactedDate'] : null;
     $description = isset($request_data['description']) ? $request_data['description'] : null;
+    $jobStatus = isset($request_data['jobStatus']) ? $request_data['jobStatus'] : null;
     $pM = isset($request_data['pM']) ? $request_data['pM'] : null;
     $engineer = isset($request_data['engineer']) ? $request_data['engineer'] : null;
     $technician = isset($request_data['technician']) ? $request_data['technician'] : null;
-    $jobStatus = "Active";
 
     // Prepare the SQL statement
-    $sql = "INSERT INTO customerdata (jobNumber, jobName, clientAddress, phone, 
-    email, description, pM, engineer, technician, jobStatus)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO customerdata (jobNumber, jobName, clientAddress, phone,
+    email, contactDate, description, jobStatus, pM, engineer, technician)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $newJobStmt = $con->prepare($sql);
 
     // Bind the parameters
-    $newJobStmt->bind_param('ssssssssss', $jobNumber, $jobName, $clientAddress, $phone,
-    $email, $description, $pM, $engineer, $technician, $jobStatus);
+    $newJobStmt->bind_param('sssssssssss', $jobNumber, $jobName, $clientAddress, $phone, $email, $contactedDate,
+     $description, $jobStatus, $pM, $engineer, $technician);
 
     // Start a transaction
     $con->begin_transaction();

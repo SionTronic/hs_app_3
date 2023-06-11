@@ -1,0 +1,19 @@
+method:{
+async getOptionsFromTable(table) {
+      const url = 'databaseAPI.php';
+      const params = new URLSearchParams({
+        table: table,
+      });
+      const response = await axios.get(`${url}?${params}`);
+      console.log('response.data', response.data)
+      return response.data;
+      
+    },
+ mounted() {
+    this.hazardOptions = this.getOptionsFromTable('hazards');
+    console.log('hazardOptions', this.hazardOptions);
+    this.injuryOptions =  this.getOptionsFromTable('injury');
+    this.peopleEffectedOptions =  this.getOptionsFromTable('people_effected');
+    this.mitigationOptions =  this.getOptionsFromTable('mitigation');
+}
+}

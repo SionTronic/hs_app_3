@@ -57,26 +57,7 @@ this.getTableData('customerdata', this.myName)
 },
 
 methods: {
-  // async getOptionsFromTable(table) {
-  //   return axios
-  //     .get(`http://localhost:8000/databaseAPI.php?table=${table}`)
-  //     .then((response) => {
-  //       if (Array.isArray(response.data)) { // Check if response.data is an array
-  //         this.jobs = response.data.filter((job) =>
-  //         (job.pM === this.myName ||
-  //           job.engineer === this.myName ||
-  //           job.technician === this.myName) &&
-  //         job.Status === "Active");
-  //       }else{
-  //         console.log("Invalid response data format");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   },
-
-    openModal() {
+      openModal() {
       this.modalVisible = true
       console.log(this.modalVisible)
     },
@@ -86,18 +67,18 @@ methods: {
       this.modalVisible=false
     },
 
-    submitNewJob(data){
+    async submitNewJob(data){
       console.log("Submit New Job")
       console.log(data)
-      this.recordTableData("createNewJob",data)
-      this.getTableData('customerdata', this.myName)
-      this.closeModal
+      await this.recordTableData("createNewJob", data)
+      await this.getTableData('customerdata', this.myName)
+      this.closeModal()
     },
-    async getTableData(table){
-      const response = await axios.get(`${dbUrl}?table=${table}&name=${this.myName}`)
+    async getTableData(table , name){
+      const response = await axios.get(`${dbUrl}?table=${table}&name=${name}`)
        try{
           this.jobs = response.data;
-          this.activeJobs = response.data.filter(job => job.jobStatus === 'Active'); 
+          this.activeJobs = response.data.filter(job => job.jobStatus === 'Active');
           console.log('Table data received successfully:', response);
        }catch(error){
           console.log(error.message);
@@ -106,7 +87,7 @@ methods: {
     async recordTableData(table,tableData){
       const response = await axios.post(`${dbUrl}?table=${table}`,tableData)
       try {
-          console.log('New Job data sent successfully:', response,data);
+          console.log('New Job data sent successfully:', response.data);
       }catch(error) {
         console.log(error.message);
       };

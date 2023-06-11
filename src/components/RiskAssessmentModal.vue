@@ -14,7 +14,7 @@
               <th>Risk Value</th>
               <th>People Effected</th>
               <th>Risk Mitigation</th>
-              <th>Mitigated Probability</th>
+              <th>Mitigated Severity</th>
               <th>Residual Risk Value</th>
               <!-- <th>Edit</th>
               <th>Delete</th> -->
@@ -36,7 +36,7 @@
               <td :style="{ backgroundColor: colorForValue(assessment.risk) }">{{ assessment.risk }}</td>
               <td>{{ assessment.peopleEffected }}</td>
               <td>{{ assessment.mitigation }}</td>
-              <td>{{ assessment.miigatedSeveriy }}</td>
+              <td>{{ assessment.mitigatedSeverity }}</td>
               <td :style="{ backgroundColor: colorForValue(assessment.residualRisk) }">{{ assessment.residualRisk }}</td>
               <!-- <td><button class="button2" @click="editRiskAssessment(assessment.id)">Edit</button></td>
               <td><button class="button2" @click.prevent="$emit('deleteRiskAssessment', assessment.id)">Delete</button></td> -->

@@ -9,29 +9,41 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1">Job Number</span>
-                                    <input ref="jobNumberInput" type="text" class="form-control" v-model="jobNumber" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input ref="jobNumberInput" type="text" class="form-control" v-model="job.jobNumber" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon2">Job Name</span>
-                                    <input type="text" class="form-control" v-model = "jobName" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" v-model = "job.jobName" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text align-items-start" id="basic-addon2">Client Address</span>
-                                    <textarea class="form-control" rows="5" height="100px" v-model="clientAddress" aria-label="Username" aria-describedby="basic-addon1"></textarea>
+                                    <textarea class="form-control" rows="5" height="100px" v-model="job.clientAddress" aria-label="Username" aria-describedby="basic-addon1"></textarea>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon2">Client Home Phone</span>
-                                    <input type="text" class="form-control" v-model = "phone" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" v-model = "job.phone" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon2">Client e-Mail</span>
-                                    <input type="text" class="form-control" v-model = "email" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" v-model = "job.email" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon2">Date</span>
+                                    <input type="text" class="form-control datepicker" v-model="job.contactedDate" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text align-items-start" id="basic-addon2">Job Description</span>
-                                    <textarea class="form-control" rows="5" v-model="description" aria-label="Username" aria-describedby="basic-addon1"></textarea>
+                                    <textarea class="form-control" rows="5" v-model="job.description" aria-label="Username" aria-describedby="basic-addon1"></textarea>
+                                </div>
+                                
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon2">Status</span>
+                                    <select class="form-select" v-model="job.jobStatus">
+                                    <option value="Active">{{status}}</option>
+                                    <option v-for="js in jobStatus" :value="js">{{ js }}</option>
+                                </select>
                                 </div>
                                 <!-- Project Manager -->
                             <div class="input-group mb-3">
@@ -72,6 +84,8 @@
                     phone,
                     email,
                     description,
+                    contactedDate,
+                    status,
                     pM,
                     engineer,
                     technician
@@ -84,6 +98,7 @@
 
 <script>
 import navButtons from '@/components/navButtons.vue';
+
     
     export default {
     components: {
@@ -94,15 +109,20 @@ import navButtons from '@/components/navButtons.vue';
 
     data() {
         return {
-            jobNumber:'Enter Job Number',
-            jobName:'',
-            clientAddress:'',
-            phone:'',
-            email:'',
-            description:'',
-            pM:'',
-            engineer:'',
-            technician:'',
+            job:{
+                jobNumber:'',
+                jobName:'',
+                clientAddress:'',
+                phone:'',
+                email:'',
+                contactedDate:new Date().toLocaleDateString('en-GB'),
+                jobStatus:'Active',
+                description:'',
+                pM:'',
+                engineer:'',
+                technician:'',
+            },
+            jobStatus:['Completed','Enquiry','Quoted', 'Accepted','Tendered','Suspended'],
             projectManagers: ['Ifan', 'Ian', 'Dyfed', 'Bryn', 'Bryan', 'Aled'],
             engineers: ['Martin', 'Sion', 'Jared', 'Byron', 'Arwel', 'Camilla', 'Dylan'],
             technicians: ['Erin', 'Tom', 'Mitch']
@@ -110,15 +130,21 @@ import navButtons from '@/components/navButtons.vue';
     },
 
     mounted() {
-    console.log(this.$route.query.name)
-    this.$refs.jobNumberInput.focus();
-    this.$refs.jobNumberInput.select();
+        console.log(this.$route.query.name)
+        //this.$refs.jobNumberInput.focus();
+        
+        flatpickr('.datepicker', {
+            dateFormat: 'd/m/Y',  // Specify the desired date format
+            defaultDate: 'today', // Set the default date to today
+            onClose: (selectedDates, dateStr, instance) => {
+            this.contactedDate = dateStr;  // Update the v-model value
+            }
+        });
     },
+   }
+</script>
 
-    }
-    </script>
-    
-    <style scoped>
+<style scoped>
     
     .nav2{
       display:flex;

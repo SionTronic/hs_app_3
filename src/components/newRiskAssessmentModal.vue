@@ -298,13 +298,13 @@ export default {
       this.calculateEffectiveness();
     },
     calculateRisk(){
-      this.risk = this.severity * this.probability; 
+      this.risk = this.severity * this.probability;
     },
     calculateResidualRisk(){
-      this.residualRisk = this.mitigatedSeverity * this.probability; 
+      this.residualRisk = this.mitigatedSeverity * this.probability;
     },
     calculateMitigatedSeverity(){
-      this.mitigatedSeverity = this.mitigatedSeverityN * this.severity; 
+      this.mitigatedSeverity = Math.round (this.mitigatedSeverityN/10) * this.risk;
     },
     calculateEffectiveness(){
       this.effectiveness = 100- ((this.residualRisk / this.risk )*100);
