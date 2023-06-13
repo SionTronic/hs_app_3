@@ -16,7 +16,9 @@
       :assessments="assessmentItems"
       @close="closeModal"
       @save="handleSelectedItems"
-      @new="openNewAssessmentModal">
+      @new="openNewAssessmentModal"
+      @deleteItem= "deleteRiskAssessmentItem"
+      @editItem= "editRiskAssessmentItem">
     </risk-assessment-modal>
 
     <newRiskAssessmentModal

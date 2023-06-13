@@ -11,32 +11,52 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="color:white;">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/" style="color:white;" >Home</a>
+              <a class="nav-link active" aria-current="page" href="/" style="color:white;">Home</a>
             </li>
             <li class="nav-item">
-              <a  class="nav-link " href="/Login" style="color:white;" >Login</a>
+              <a v-if="!loggedIn" class="nav-link" @click="login" style="color:white;">Login</a>
+              <a v-else class="nav-link" @click="logout" style="color:white;">Logout</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
-<router-view/>
+  <router-view/>
 </template>
 
-
 <script>
-
 export default {
-
-
+  data() {
+    return {
+      loggedIn: false
+    }
+  },
+  methods: {
+    login() {
+      // Perform login logic
+      console.log("login")
+      this.loggedIn = true;
+      // Redirect to the desired route after successful login
+      this.$router.push('/Login');
+    },
+    logout() {
+      // Perform logout logic
+      this.loggedIn = false;
+      console.log("logout")
+      // Redirect to the home page or any other desired route after logout
+      this.$router.push('/');
+    }
+  }
 }
 </script>
-<style>
 
-#app{
-text-align: center;
+<style>
+#app {
+  text-align: center;
 }
 
-
+.nav-link:hover{
+  cursor: pointer;
+}
 </style>

@@ -46,7 +46,8 @@ export default {
 
   data(){
     return{
-      modalVisible:true
+      modalVisible:true,
+      
     }
   },
   props: {

@@ -2,7 +2,17 @@
   <div class="backdrop">
     <div class="modal-content">
       <h2>Assessment Library</h2>
+      <div class="d-flex justify-content-center">
+          <div class="input-group mb-3 mx-auto col-lg-1">
+            <span class="input-group-text" id="basic-addon2">Category</span>
+            <select class="form-select" v-model="assessmentCategory"  >
+                <option value="Select Category">Select Category</option>
+                <option v-for="category in assessmentCategories" :value="category">{{ category }}</option>
+            </select>
+          </div>
+        </div>
       <div class="table-container">
+       
         <table class="table">
           <thead>
             <!-- Table headings -->
@@ -38,8 +48,8 @@
               <td>{{ assessment.mitigation }}</td>
               <td>{{ assessment.mitigatedSeverity }}</td>
               <td :style="{ backgroundColor: colorForValue(assessment.residualRisk) }">{{ assessment.residualRisk }}</td>
-              <!-- <td><button class="button2" @click="editRiskAssessment(assessment.id)">Edit</button></td>
-              <td><button class="button2" @click.prevent="$emit('deleteRiskAssessment', assessment.id)">Delete</button></td> -->
+              <td><button class="button2 print-hide" @click="$emit('editItem',(assessment.id))">Edit</button></td>
+              <td><button class="button2 print-hide" @click="$emit('deleteItem',(assessment.id))">Delete</button></td>
             </tr>
           </tbody>
         </table>
@@ -58,9 +68,11 @@
   import axios from 'axios';
 
   export default {
+    emits:["deleteItem","editItem"],
     data() {
       return {
         assessments: [],
+        assessmentCategories: ['Site', 'Office', 'Scope', 'Domestic','Favorite'],
       };
     },
     mounted() {

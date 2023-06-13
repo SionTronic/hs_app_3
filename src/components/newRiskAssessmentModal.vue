@@ -4,6 +4,15 @@
         <h2>New Assessment</h2>
         <form>
           <div class="table-container">
+            <div class="d-flex justify-content-center">
+          <div class="input-group mb-3 mx-auto col-lg-1">
+          <span class="input-group-text" id="basic-addon2">Category</span>
+          <select class="form-select" v-model="assessmentCategory"  >
+              <option value="Select Category">Select Category</option>
+              <option v-for="category in assessmentCategories" :value="category">{{ category }}</option>
+          </select>
+        </div>
+        </div>
           <table>
             <thead>
               <tr class="title">
@@ -126,7 +135,8 @@
             selectedMitigation, 
             mitigatedSeverity, 
             residualRisk, 
-            effectiveness })" class="button2">Record</button>
+            effectiveness,
+            assessmentCategory})" class="button2">Record</button>
           <button type="button" @click="$emit('closeModal2')" class="button2">Close</button>
         </form>
         </div>
@@ -209,6 +219,7 @@ export default {
       mitigatedSeverityN:'',
       residualRisk:'',
       effectiveness:'',
+      assessmentCategory:'',
 
       selectedPeopleEffected: '',
       selectedEquipment: '',
@@ -220,6 +231,7 @@ export default {
       peopleEffectedOptions: [],
       mitigationOptions:[],
       equipmentOptions: [],
+      assessmentCategories: ['Site', 'Office', 'Scope', 'Domestic'],
       
       // Add more options arrays as needed
     };

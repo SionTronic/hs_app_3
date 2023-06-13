@@ -1,7 +1,7 @@
 <template>
     <div class="backdrop">
       <div class="myModal">
-        <h2>New Assessment</h2>
+        <h2>Edit Assessment</h2>
         <form>
           <div class="table-container">
           <table>
@@ -221,6 +221,7 @@ export default {
       peopleEffectedOptions: [],
       mitigationOptions:[],
       equipmentOptions: [],
+     
       
       // Add more options arrays as needed
     };
@@ -304,7 +305,7 @@ export default {
     },
    async  getOptionsFromTable(table) {
        return axios
-        .get(`http://cadarn.wales/data/databaseAPI.php?table=${table}`)
+        .get(`databaseAPI.php?table=${table}`)
         .then((response) => response.data)
         .catch((error) => {
           console.log(error);
@@ -324,7 +325,7 @@ export default {
       this.residualRisk = this.mitigatedSeverity * this.probability; 
     },
     calculateMitigatedSeverity(){
-      this.mitigatedSeverity = this.mitigatedSeverityN * this.severity; 
+      this.mitigatedSeverity = Math.round (this.mitigatedSeverityN/10) * this.risk;
     },
     calculateEffectiveness(){
       this.effectiveness = 100- ((this.residualRisk / this.risk )*100);
